@@ -12,7 +12,12 @@ class Db
         $params = include($paramsPath);
 
         $dsn = "mysql:host={$params['host']};dbname={$params['dbname']};charset={$params['charset']}";
-        $db = new PDO($dsn, $params['user'], $params['password']);
+        $db = new PDO($dsn, $params['user'], $params['password'],
+            [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            ]
+        );
 
         return $db;
     }
