@@ -12,10 +12,11 @@ class News
         $id = intval($id);
 
         $db = Db::getConnection();
+        $result = $db->prepare('SELECT * FROM `news` WHERE `id` = :id');
+        $result->bindParam(':id', $id, PDO::PARAM_INT);
+        $result->execute();
 
-        $result = $db->query("SELECT * FROM `news` WHERE `id` = " . $id)->fetch(PDO::FETCH_ASSOC);
-
-        return $result;
+        return $result->fetch();
     }
 
     /**
@@ -29,7 +30,7 @@ class News
         $result = $db->query("SELECT `id`, `title`, `date`, `short_content`, `user_id` 
                     FROM `news`
                     ORDER BY `date` DESC 
-                    LIMIT 10")->fetchAll(PDO::FETCH_ASSOC);
+                    LIMIT 10")->fetchAll();
 
         return $result;
     }
